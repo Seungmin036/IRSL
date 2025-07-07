@@ -1,0 +1,6 @@
+<mujoco>
+    <position name="wall_p_actuator" joint="wall_joint" kp="50000"/>
+    <velocity name="wall_d_actuator" joint="wall_joint" kv="5000"/>
+    <!-- <position name="wall2_p_actuator" joint="wall2_joint" kp="50000"/> -->
+    <!-- <velocity name="wall2_d_actuator" joint="wall2_joint" kv="5000"/> -->
+</mujoco>

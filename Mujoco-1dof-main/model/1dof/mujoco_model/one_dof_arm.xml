@@ -1,0 +1,79 @@
+<mujoco>
+<!-- Flexible joint version -->
+<!-- Damping coefficient = 0.5, Stiffness = 1000-->
+   <asset>
+      <texture name="texplane" type="2d" builtin="checker" rgb1=".2 .3 .4" rgb2=".1 0.15 0.2" width="512" height="512"/>                
+      <material name="MatGnd" reflectance="0.1" texture="texplane" texrepeat="4 4" texuniform="true"/>
+   	<mesh name="core_shaft_visual" file="meshes/visual/core_shaft.stl"/>
+   	<mesh name="core_shaft_collision" file="meshes/collision/core_shaft.stl"/>
+   	<mesh name="coupling_visual" file="meshes/visual/coupling.stl"/>
+   	<mesh name="coupling_collision" file="meshes/collision/coupling.stl"/>
+      <mesh name="shaft_visual" file="meshes/visual/shaft.stl"/>
+   	<mesh name="shaft_collision" file="meshes/collision/shaft.stl"/>
+      <mesh name="shaft_torquesensor_visual" file="meshes/visual/shaft_torquesensor.stl"/>
+   	<mesh name="shaft_torquesensor_collision" file="meshes/collision/shaft_torquesensor.stl"/>
+      <mesh name="torquesensor_pb2_visual" file="meshes/visual/torquesensor_pb2.stl"/>
+   	<mesh name="torquesensor_pb2_collision" file="meshes/collision/torquesensor_pb2.stl"/>
+      <mesh name="robot_arm_visual" file="meshes/visual/robot_arm.stl"/>
+   	<mesh name="robot_arm_collision" file="meshes/collision/robot_arm.stl"/>
+   </asset>
+
+   <default class="onedof">
+      <default class="visual">
+         <geom contype="0" conaffinity="0" group="0" type="mesh" rgba="0.3 0.3 0.3 1" mass="0"/>
+      </default>
+      <default class="collision">
+         <geom contype="1" conaffinity="1" group="3" type="mesh" rgba=".5 .6 .7 1"/>
+      </default>
+   </default>
+   
+   <option timestep="0.0001" integrator="Euler" >
+      <flag sensornoise="enable" energy="enable" contact="enable" gravity="enable"/>
+   </option>
+
+
+   <worldbody>
+      <light pos="0 0 1000" castshadow="false" />
+      <!-- <light diffuse=".5 .5 .5" pos="0 0 3" dir="0 0 -1"/> -->
+      <geom name="ground" pos="0 0 0" size="5 5 10" material="MatGnd" type="plane" contype="1" conaffinity="0.1"/>
+
+      <body name="robot_arm" pos="0 0 0.2" euler="0 0 0" childclass="onedof">
+         <joint name="joint" type="hinge" axis="1 0 0" pos="0 0 0.1" frictionloss="0" armature="0.501644" damping="0"/>
+         <joint name="spring" type="hinge" axis="1 0 0" pos="0 0 0.1" stiffness="1000" damping="5"/>
+         <!-- <inertial pos="0 0 0" mass="0.742438" diaginertia="0.005425 0.004867 0.0005701"/> -->
+         <inertial pos="0 0 0" mass="0.00000001" diaginertia="0.000000001 0.000000001 0.000000001"/>
+
+         <geom class="visual" rgba = ".95 .99 .92 1" mesh="robot_arm_visual"/>
+         <geom class="collision" mesh="robot_arm_collision"/>
+
+         <site name="torque_sensor" type="sphere" size="0.01" pos="-0.005 0 0.1"/>
+         <site name="link1" type="sphere" size="0.01" rgba = "0 0 1 1" pos="0 0 0.1"/>
+         <site name="endeffector" type="sphere" size="0.01" rgba = "1 0 0 1" pos="0 0 -0.1"/>
+         
+         <body name ="point_mass" pos="0 0 -0.1">
+            <inertial pos="0 0 0" mass="5"/>
+            <geom type="sphere" size="0.001"/>
+         </body>
+      </body>
+
+         
+
+
+   </worldbody>
+   
+   <actuator>
+         <motor joint="joint" name="joint_torque" gear="1" ctrllimited="true" ctrlrange="-100 100"/>
+   </actuator>
+
+
+   
+   <sensor>
+      <torque name="torque_sensor" site="torque_sensor"/>
+      <framepos name="endeffector_pos" objtype="site" objname="endeffector"/>
+      <framequat name="endeffector_quat" objtype="site" objname="endeffector"/>
+
+      <framepos name="link1_pos" objtype="site" objname="link1"/>
+      <framequat name="link1_quat" objtype="site" objname="link1"/>
+
+   </sensor>
+</mujoco>

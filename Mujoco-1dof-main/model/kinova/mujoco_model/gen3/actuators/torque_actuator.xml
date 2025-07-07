@@ -1,0 +1,11 @@
+<mujoco>
+
+    <motor name="gen3_actuator_1" joint="Actuator1" gear="1" forcelimited="true" ctrllimited="true"  ctrlrange="-39 39" forcerange="-39 39"/>
+    <motor name="gen3_actuator_2" joint="Actuator2" gear="1" forcelimited="true" ctrllimited="true"  ctrlrange="-39 39" forcerange="-39 39"/>
+    <motor name="gen3_actuator_3" joint="Actuator3" gear="1" forcelimited="true" ctrllimited="true"  ctrlrange="-39 39" forcerange="-39 39"/>
+    <motor name="gen3_actuator_4" joint="Actuator4" gear="1" forcelimited="true" ctrllimited="true"  ctrlrange="-39 39" forcerange="-39 39"/>
+    <motor name="gen3_actuator_5" joint="Actuator5" gear="1" forcelimited="true" ctrllimited="true"  ctrlrange="-9 9" forcerange="-9 9"/>
+    <motor name="gen3_actuator_6" joint="Actuator6" gear="1" forcelimited="true" ctrllimited="true"  ctrlrange="-9 9" forcerange="-9 9"/>
+    <motor name="gen3_actuator_7" joint="Actuator7" gear="1" forcelimited="true" ctrllimited="true"  ctrlrange="-9 9" forcerange="-9 9"/>
+
+</mujoco>

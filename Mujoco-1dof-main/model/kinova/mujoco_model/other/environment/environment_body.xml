@@ -1,0 +1,12 @@
+<mujoco>
+    <body name="wall" pos="0.6 0 0.5">
+        <geom type="box" size="0.1 0.4 0.5" rgba="0.5 0.5 0.5 1"/>
+        <joint type="slide" name="wall_joint" pos="0 0 0" axis="1 0 0"/>
+        <site name="wall_site" pos="0 0 -0.1" type="sphere" size="0.001"/>
+    </body>
+
+    <!-- <body name="wall2" pos="0 0.3 0.5">
+        <geom type="box" size="0.499 0.1 0.5" rgba="0.5 0.5 0.5 1"/>
+        <joint type="slide" name="wall2_joint" pos="0 0 0" axis="0 1 0"/>
+    </body> -->
+</mujoco>
