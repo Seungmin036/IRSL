@@ -1,0 +1,46 @@
+<mujoco>
+
+    <compiler angle="radian"/>
+
+    <asset>
+        <!-- For visualization -->
+		<mesh name="Base_Link" file="mesh/visual/Base_Link.stl"/>
+        <mesh name="Shoulder_Link" file="mesh/visual/Shoulder_Link.stl"/>
+        <mesh name="HalfArm1_Link" file="mesh/visual/HalfArm1_Link.stl"/>
+        <mesh name="HalfArm2_Link" file="mesh/visual/HalfArm2_Link.stl"/>
+        <mesh name="ForeArm_Link" file="mesh/visual/ForeArm_Link.stl"/>
+        <mesh name="SphericalWrist1_Link" file="mesh/visual/SphericalWrist1_Link.stl"/>
+        <mesh name="SphericalWrist2_Link" file="mesh/visual/SphericalWrist2_Link.stl"/>
+        <mesh name="Bracelet_Link" file="mesh/visual/Bracelet_Link.stl"/>
+        <mesh name="base_flange_visual" file="mesh/other/kinova_base_flange.stl"/>
+        <mesh name="ATI_Mini85_visual" file="mesh/other/ATI_Mini85.stl"/>
+
+        <!-- For collsiion -->
+        <mesh name="Convex_Base_Link" file="mesh/collision/Convex_Base_Link.stl"/>
+        <mesh name="Convex_Shoulder_Link" file="mesh/collision/Convex_Shoulder_Link.stl"/>
+        <mesh name="Convex_HalfArm1_Link" file="mesh/collision/Convex_HalfArm1_Link.stl"/>
+        <mesh name="Convex_HalfArm2_Link" file="mesh/collision/Convex_HalfArm2_Link.stl"/>
+        <mesh name="Convex_ForeArm_Link" file="mesh/collision/Convex_ForeArm_Link.stl"/>
+        <mesh name="Convex_SphericalWrist1_Link" file="mesh/collision/Convex_SphericalWrist1_Link.stl"/>
+        <mesh name="Convex_SphericalWrist2_Link" file="mesh/collision/Convex_SphericalWrist2_Link.stl"/>
+        <mesh name="Convex_Bracelet_Link" file="mesh/collision/Convex_Bracelet_Link.stl"/>
+        <mesh name="base_flange_collision" file="mesh/other/kinova_base_flange.stl"/>
+        <mesh name="ATI_Mini85_collision" file="mesh/other/ATI_Mini85.stl"/>
+
+    </asset>
+    <default>
+        <default class="gen3">
+            
+            <position forcelimited="true" ctrllimited="true" />
+
+            <default class="visual">
+                <geom contype="0" conaffinity="0" group="0" type="mesh" rgba=".95 .99 .92 1" mass="0"/>
+            </default>
+
+            <default class="collision">
+                <geom contype="1" conaffinity="1" group="3" type="mesh" rgba=".5 .6 .7 1"/>
+            </default>
+
+        </default>
+    </default>
+</mujoco>

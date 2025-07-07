@@ -1,0 +1,94 @@
+<mujoco>
+    <body name="gen3_base_flange" childclass="gen3" pos="0 0 0">
+    <inertial pos="0 0 -0.01" mass="0.672594" fullinertia="7.105e-1 7.163e-1 1.382 -1.120e-12 160.932e-6 3.553E-16" />
+    <geom class="visual" mesh="base_flange_visual"  rgba=".6 .6 .6 1"/>
+    <geom class="collision" mesh="base_flange_collision"/>
+    <site name="base_FT" pos="0 0 -0.02" type="sphere" size="0.001"/>
+
+      <body name="Base_Link" pos="0 0 0" euler="0 0 0">
+      <inertial pos="-0.000648 -0.000166 0.084487" mass="1.697" fullinertia="0.004622 0.004495 0.002079 -9E-06 -6E-05 -9E-06"/>
+      <geom class="visual" mesh="Base_Link"/>
+      <geom class="collision" mesh="Convex_Base_Link"/>
+
+      <body name="Shoulder_Link" pos="0 0 0.15643" quat="-3.67321e-06 1 0 0">
+        <inertial pos="-2.3e-05 -0.010364 -0.07336" quat="0.707051 0.0451246 -0.0453544 0.704263" mass="1.3773" diaginertia="0.00488868 0.00457 0.00135132"/>
+        <joint name="Actuator1" pos="0 0 0" axis="0 0 1" armature="0.4"/>
+
+        <site name="joint1_torque" pos="0 0 0" type="sphere" size="0.001"/>
+
+        <geom class="visual" mesh="Shoulder_Link"/>
+        <geom class="collision" mesh="Convex_Shoulder_Link"/>
+
+        <body name="HalfArm1_Link" pos="0 0.005375 -0.12838" quat="0.707105 0.707108 0 0">
+          <inertial pos="-4.4e-05 -0.09958 -0.013278" quat="0.482348 0.516286 -0.516862 0.483366" mass="1.1636" diaginertia="0.0113017 0.011088 0.00102532"/>
+          <joint name="Actuator2" pos="0 0 0" axis="0 0 1" limited="true" range="-2.41 2.41" armature="0.4"/>
+
+          <site name="joint2_torque" pos="0 0 0" type="sphere" size="0.001"/>
+
+          <geom class="visual" mesh="HalfArm1_Link"/>
+          <geom class="collision" mesh="Convex_HalfArm1_Link"/>
+          
+          <body name="HalfArm2_Link" pos="0 -0.21038 -0.006375" quat="0.707105 -0.707108 0 0">
+            <inertial pos="-4.4e-05 -0.006641 -0.117892" quat="0.706144 0.0213722 -0.0209128 0.707437" mass="1.1636" diaginertia="0.0111633 0.010932 0.00100671"/>
+            <joint name="Actuator3" pos="0 0 0" axis="0 0 1" armature="0.4" />
+
+            <site name="joint3_torque" pos="0 0 0" type="sphere" size="0.001"/>
+
+            <geom class="visual" mesh="HalfArm2_Link"/>
+            <geom class="collision" mesh="Convex_HalfArm2_Link"/>
+
+            <body name="ForeArm_Link" pos="0 0.006375 -0.21038" quat="0.707105 0.707108 0 0">
+              <inertial pos="-1.8e-05 -0.075478 -0.015006" quat="0.483678 0.515961 -0.515859 0.483455" mass="0.9302" diaginertia="0.00834839 0.008147 0.000598606"/>
+              <joint name="Actuator4" pos="0 0 0" axis="0 0 1" limited="true" range="-2.66 2.66" armature="0.4"/>
+
+              <site name="joint4_torque" pos="0 0 0" type="sphere" size="0.001"/>
+
+              <geom class="visual" mesh="ForeArm_Link"/>
+              <geom class="collision" mesh="Convex_ForeArm_Link"/>
+
+              <body name="SphericalWrist1_Link" pos="0 -0.20843 -0.006375" quat="0.707105 -0.707108 0 0">
+                <inertial pos="1e-06 -0.009432 -0.063883" quat="0.703558 0.0707492 -0.0707492 0.703558" mass="0.6781" diaginertia="0.00165901 0.001596 0.000346988"/>
+                <joint name="Actuator5" pos="0 0 0" axis="0 0 1" armature="0.2"/>
+
+                <site name="joint5_torque" pos="0 0 0" type="sphere" size="0.001"/>
+
+                <geom class="visual" mesh="SphericalWrist1_Link"/>
+                <geom class="collision" mesh="Convex_SphericalWrist1_Link"/>
+
+                <body name="SphericalWrist2_Link" pos="0 0.00017505 -0.10593" quat="0.707105 0.707108 0 0">
+                  <inertial pos="1e-06 -0.045483 -0.00965" quat="0.44426 0.550121 -0.550121 0.44426" mass="0.6781" diaginertia="0.00170087 0.001641 0.00035013"/>
+                  <joint name="Actuator6" pos="0 0 0" axis="0 0 1" limited="true" range="-2.23 2.23" armature="0.2"/>
+
+                  <site name="joint6_torque" pos="0 0 0" type="sphere" size="0.001"/>
+
+                  <geom class="visual" mesh="SphericalWrist2_Link"/>
+                  <geom class="collision" mesh="Convex_SphericalWrist2_Link"/>
+
+                  <body name="Bracelet_Link" pos="0 -0.10593 -0.00017505" quat="0.707105 -0.707108 0 ">
+                    <!-- vision -->
+                    <!-- <inertial pos="-0.000281 -0.011402 -0.029798" quat="0.601961 0.40663 -0.381169 0.571843" mass="0.5006" diaginertia="0.000657515 0.000586793 0.000320693"/> -->
+                    <!-- no vision -->
+                    <inertial pos="-9.3e-05 0.000132 -0.022905" quat="-0.0368025 0.719402 -0.0444884 0.69219" mass="0.364" diaginertia="0.00024027 0.000222769 0.000213961"/>
+                    <joint name="Actuator7" pos="0 0 0" axis="0 0 1" armature="0.2"/>
+
+                    <site name="joint7_torque" pos="0 0 0" type="sphere" size="0.001"/>
+                    <site name='ee_site' pos="0 0 -0.0615250000000001" euler="-3.14159 0 0"/>
+
+                    <geom class="visual" mesh="Bracelet_Link"/>
+                    <geom class="collision" mesh="Convex_Bracelet_Link"/>
+
+                    <!-- <body name="gripper_point_mass" pos = "0 0 -0.064" >
+                        <geom type="box" size="0.02 0.02 0.02" rgba="0.5 0.5 0 1"/>
+                        <inertial mass="0.0001" pos="0 0 0"/>
+                    </body> -->
+
+                  </body>
+                </body>
+              </body>
+            </body>
+          </body>
+        </body>
+      </body>
+    </body>
+  </body>
+</mujoco>

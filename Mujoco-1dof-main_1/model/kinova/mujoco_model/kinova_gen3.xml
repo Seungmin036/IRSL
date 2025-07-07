@@ -1,0 +1,34 @@
+<mujoco model="Kinova_Gen3">
+
+    <include file="other/simple_scene.xml"/>
+    <include file="gen3/assets.xml"/>
+    <compiler meshdir=""/>
+
+    <option cone="elliptic" gravity="0 0 -9.81" timestep="0.001" integrator="Euler">
+        <flag contact="enable"/>
+    </option>
+
+    <worldbody>
+        <!-- <include file="gen3/kinova_gen3_arm.xml"/> -->
+        <include file="gen3/kinova_gen3_arm_rigid.xml"/>
+
+        <body name="ATI_Mini85" pos="0 0 0">
+            <geom class="visual" mesh="ATI_Mini85_visual" rgba=".6 .6 .6 1"/>
+            <geom class="collision" mesh="ATI_Mini85_visual"/>
+        </body>
+
+        <!-- <include file="other/environment/environment_body.xml"/> -->
+    </worldbody>
+
+    <actuator>
+        <include file="gen3/actuators/torque_actuator.xml"/>
+        <!-- <include file="other/environment/environment_actuation.xml"/> -->
+    </actuator>
+
+    <sensor>
+        <include file="gen3/sensors/gen3_sensor.xml" />
+    </sensor>
+
+
+
+</mujoco>

@@ -1,0 +1,37 @@
+{
+    "configurations": [
+        {
+            // "name": "Linux",
+            // "includePath": [
+            //     "${workspaceFolder}/**",
+            //     "/usr/include/eigen3",
+            //     "include",
+            //     "/opt/ros/noetic/include",
+            //     "include",
+            //     "src",
+            //     "include"
+            // ],
+            // "defines": [],
+            // "compilerPath": "/usr/bin/gcc",
+            // "cStandard": "gnu17",
+            // "cppStandard": "gnu++14",
+            // "intelliSenseMode": "linux-gcc-x64",
+            // "configurationProvider": "ms-vscode.makefile-tools"
+            "name": "CMake",
+            "compileCommands": "${config:cmake.buildDirectory}/compile_commands.json",
+            "configurationProvider": "ms-vscode.cmake-tools"
+        }
+    ],
+    "version": 4,
+    
+    // "configurations": [
+    //     {
+    //         "args": [
+    //                 "../models/franka_panda_flexible.xml"
+    //             ]
+    //     }
+
+    // ]
+        
+        
+}

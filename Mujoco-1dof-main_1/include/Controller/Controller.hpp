@@ -23,6 +23,12 @@ using namespace Eigen;
 
 class Controller
 {
+    public:
+    Controller(const pinocchio::Model & pinocchio_model);
+    void InitController(const RobotState & robot_state_init);
+    Eigen::VectorXd GetControlInput(const RobotState & robot_state, const int& selector);
+    Eigen::VectorXd PD_controller(const RobotState & robot_state);
+    Eigen::VectorXd lugre_friction(const RobotState & robot_state);
     
     private:
     int nq;
@@ -40,15 +46,6 @@ class Controller
     Eigen::MatrixXd joint_stiffness_matrix_;
     Eigen::MatrixXd rotor_inertia_matrix_;
 
-    //for observer
-    Eigen::VectorXd tau_f_hat_;           
-    Eigen::VectorXd e_nr_, e_dot_nr_;     
-    Eigen::VectorXd theta_nom_, theta_dot_nom_; 
-
-    Eigen::MatrixXd Gamma_, Gamma_p_;     
-    Eigen::VectorXd K_lpf_;          
-
-
     //for RNEA 
     Dynamics::articulated_system robot;
     pinocchio::Model pinocchio_model_;
@@ -57,15 +54,15 @@ class Controller
     
     //*****************************Controller**********************************//
 
-    Eigen::VectorXd quasi_static_estimate_q(const RobotState & robot_state);
+    // Eigen::VectorXd quasi_static_estimate_q(const RobotState & robot_state);
 
     Eigen::VectorXd lugre_friction(const RobotState & robot_state);
 
-    Eigen::VectorXd friction_observer_PD(const RobotState & robot_state, Eigen::VectorXd control_motor_torque);
+    // Eigen::VectorXd friction_observer_PD(const RobotState & robot_state, Eigen::VectorXd control_motor_torque);
 
     Eigen::VectorXd PD_controller(const RobotState & robot_state);
 
-    Eigen::VectorXd PD_controller_AS_GC(const RobotState & robot_state);
+    // Eigen::VectorXd PD_controller_AS_GC(const RobotState & robot_state);
 
     // Eigen::VectorXd PD_controller_AS_GC_task_space(const RobotState & robot_state);
 
