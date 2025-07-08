@@ -9,8 +9,8 @@
     </option>
 
     <worldbody>
-        <!-- <include file="gen3/kinova_gen3_arm.xml"/> -->
-        <include file="gen3/kinova_gen3_arm_rigid.xml"/>
+        <include file="gen3/kinova_gen3_arm.xml"/> 
+        <!-- <include file="gen3/kinova_gen3_arm_rigid.xml"/>-->
 
         <body name="ATI_Mini85" pos="0 0 0">
             <geom class="visual" mesh="ATI_Mini85_visual" rgba=".6 .6 .6 1"/>

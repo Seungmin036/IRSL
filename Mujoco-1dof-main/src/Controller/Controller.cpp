@@ -22,18 +22,19 @@ void Controller::InitController(const RobotState & robot_state_init)
     Fc    = Eigen::VectorXd::Constant(nq, 6.975);
     Fs    = Eigen::VectorXd::Constant(nq, 8.875);
     vs    = Eigen::VectorXd::Constant(nq, 0.06109);
+    
 
+    theta_n_km1 = Eigen::VectorXd::Zero(nq);
+    dtheta_n_km1 = Eigen::VectorXd::Zero(nq);
+    sigma_km1 = Eigen::VectorXd::Zero(nq);
+    tau_f_km1 = Eigen::VectorXd::Zero(nq);
+    tau_c_km1 = Eigen::VectorXd::Zero(nq);
+    tau_j_km1 = Eigen::VectorXd::Zero(nq);
+    
     // observer gain
-    tau_f_hat_ = Eigen::VectorXd::Zero(nq);
-    e_nr_ = Eigen::VectorXd::Zero(nq);
-    e_dot_nr_ = Eigen::VectorXd::Zero(nq);
-    theta_nom_ = robot_state_init.theta;
-    theta_dot_nom_ = robot_state_init.dtheta;
-
     Gamma_ = Eigen::MatrixXd::Identity(nq, nq) * 10000;
-    Gamma_p_ = Eigen::MatrixXd::Identity(nq, nq) * 100000*step_time_;
-    K_lpf_= Eigen::VectorXd::Zero(nq);
-    K_lpf_ << 150, 150, 150, 150, 120, 120, 120;
+    Gamma_p_ = 10*step_time_*Gamma_;
+    K_lpf_= Eigen::VectorXd::Zero(nq); K_lpf_ << 150, 150, 150, 150, 120, 120, 120;
 }
 
 Eigen::VectorXd Controller::GetControlInput(const RobotState & robot_state, const int& selector)
@@ -46,6 +47,7 @@ Eigen::VectorXd Controller::GetControlInput(const RobotState & robot_state, cons
         break;
     case CONTROLLER_SELECTOR::JOINT_PD_FRIC:
         u=this->PD_controller_AS_GC(robot_state);
+        //u = u + lugre_friction(robot_state);
         break;
 
     case CONTROLLER_SELECTOR::TASK_PD:
@@ -83,22 +85,21 @@ Eigen::VectorXd Controller::PD_controller(const RobotState & robot_state)
 
     theta_des = robot_state.q_d+joint_stiffness_matrix_.inverse()*gravity_compensation_torque;
     control_motor_torque = -Kp*(robot_state.theta-theta_des)-Kd*(robot_state.dtheta - robot_state.dq_d)+gravity_compensation_torque;
-    
+
     return control_motor_torque;
 }
 
 Eigen::VectorXd Controller::lugre_friction(const RobotState & robot_state)
 {
-    Eigen::VectorXd friction(nq);  
+    Eigen::VectorXd friction(nq);   
 
     for (int i = 0; i < nq; ++i) {
-        double v = robot_state.dtheta(i);
-        double g = Fc(i) + (Fs(i) - Fc(i)) * std::exp(-std::pow(v / vs(i), 2));
-        double dz_i = v - (sig_0(i) * std::abs(v) / g) * z(i);
+        double g = Fc(i) + (Fs(i) - Fc(i)) * std::exp(-std::pow(robot_state.dtheta(i) / vs(i), 2));
+        double dz_i = robot_state.dtheta(i) - (sig_0(i) * std::abs(robot_state.dtheta(i)) / g) * z(i);
         z(i) += dz_i * step_time_;
 
         // calculate friction
-        friction(i) = sig_0(i) * z(i) + sig_1(i) * dz_i + sig_2(i) * v;
+        friction(i) = sig_0(i) * z(i) + sig_1(i) * dz_i + sig_2(i) * robot_state.dtheta(i);
     }
 
     return friction;
@@ -106,24 +107,32 @@ Eigen::VectorXd Controller::lugre_friction(const RobotState & robot_state)
 
 Eigen::VectorXd Controller::friction_observer_PD(const RobotState & robot_state, Eigen::VectorXd control_motor_torque)
 {
-    Eigen::VectorXd theta_ddot_nom = rotor_inertia_matrix_.inverse() * (control_motor_torque - robot_state.tau_J);
 
-    theta_dot_nom_ += step_time_ * theta_ddot_nom;
-    theta_nom_     += step_time_ * theta_dot_nom_;
+    Eigen::VectorXd ddtheta_n = rotor_inertia_matrix_.inverse() * (control_motor_torque - tau_j_km1 + sigma_km1 - tau_f_km1);
 
-    e_nr_ = theta_nom_ - robot_state.theta;
-    e_dot_nr_ = theta_dot_nom_ - robot_state.dtheta;
+    Eigen::VectorXd dtheta_n_k = dtheta_n_km1 + step_time_ * ddtheta_n;
+    Eigen::VectorXd theta_n_k = theta_n_km1 + step_time_ * dtheta_n_km1;
 
-    Eigen::VectorXd sigma_hat = -rotor_inertia_matrix_ * Gamma_ * (e_dot_nr_ + Gamma_p_ * e_nr_);
-    for (int i = 0; i < nq; ++i)
-    {
-        double alpha = std::exp(-K_lpf_(i) * step_time_);
-        tau_f_hat_(i) = alpha * tau_f_hat_(i) + (1.0 - alpha) * sigma_hat(i);
+    Eigen::VectorXd de = dtheta_n_k - robot_state.dtheta;
+    Eigen::VectorXd e = theta_n_k - robot_state.theta;
+    Eigen::MatrixXd I = Eigen::MatrixXd::Identity(nq, nq);
+    Eigen::VectorXd dde = -(I + Gamma_ * step_time_).inverse() * Gamma_ * ((I + Gamma_p_ * step_time_) * de + Gamma_p_ * e);
+
+    Eigen::VectorXd sigma_k = -rotor_inertia_matrix_.inverse() * Gamma_ * (step_time_ * dde + (I + Gamma_p_ * step_time_) * de + Gamma_p_ * e);
+    Eigen::VectorXd tau_f_k(nq);
+    for (int i = 0; i < nq; ++i) {
+        double alpha_i = std::exp(-K_lpf_(i) * step_time_);
+        tau_f_k(i) = -alpha_i * tau_f_km1(i) + (1.0 - alpha_i) * sigma_k(i);
     }
+    // update
+    theta_n_km1 = theta_n_k;
+    dtheta_n_km1 = dtheta_n_k;
+    sigma_km1 = sigma_k;
+    tau_f_km1 = tau_f_k;
+    tau_j_km1 = robot_state.tau_J;
 
-    return tau_f_hat_;
+    return tau_f_k;
 }
-
 
 Eigen::VectorXd Controller::PD_controller_AS_GC(const RobotState & robot_state)
 {
@@ -141,10 +150,11 @@ Eigen::VectorXd Controller::PD_controller_AS_GC(const RobotState & robot_state)
     theta_des = robot_state.q_d + joint_stiffness_matrix_.inverse() * gravity_compensation_torque;
 
     Eigen::VectorXd tau_c = -Kp * (robot_state.theta - theta_des)- Kd * (robot_state.dtheta - robot_state.dq_d)+ gravity_compensation_torque;
+    Eigen::VectorXd tau_f_hat = friction_observer_PD(robot_state, tau_c_km1);
+    //update tau_c
+    tau_c_km1 = tau_c;
 
-    Eigen::VectorXd tau_f_hat = friction_observer_PD(robot_state, tau_c);
-    Eigen::VectorXd control_motor_torque = tau_c - tau_f_hat;
-    control_motor_torque += lugre_friction(robot_state);
+    Eigen::VectorXd control_motor_torque = tau_c-tau_f_hat+robot_state.tau_J;
 
     return control_motor_torque;
 }

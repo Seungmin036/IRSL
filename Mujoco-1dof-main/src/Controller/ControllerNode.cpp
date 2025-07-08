@@ -96,12 +96,12 @@ void ControllerNode::Control_Loop(const mjModel* m, mjData* d)
      
     Eigen::VectorXd u(nv);
 
-    u = controller.GetControlInput(robot_state, CONTROLLER_SELECTOR::JOINT_PD);
-
+    u = controller.GetControlInput(robot_state, CONTROLLER_SELECTOR::JOINT_PD_FRIC);
 
     //apply control input u
     for (int i=0; i<nv;i++)
     {
+        //d->ctrl[i] = u(i)-robot_state.tau_J(i)+fric(i);
         d->ctrl[i] = u(i);
     }
     

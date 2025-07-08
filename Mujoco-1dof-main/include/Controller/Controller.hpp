@@ -41,9 +41,12 @@ class Controller
     Eigen::MatrixXd rotor_inertia_matrix_;
 
     //for observer
-    Eigen::VectorXd tau_f_hat_;           
-    Eigen::VectorXd e_nr_, e_dot_nr_;     
-    Eigen::VectorXd theta_nom_, theta_dot_nom_; 
+    Eigen::VectorXd theta_n_km1;
+    Eigen::VectorXd dtheta_n_km1;
+    Eigen::VectorXd sigma_km1;
+    Eigen::VectorXd tau_f_km1;
+    Eigen::VectorXd tau_c_km1;
+    Eigen::VectorXd tau_j_km1;
 
     Eigen::MatrixXd Gamma_, Gamma_p_;     
     Eigen::VectorXd K_lpf_;          
@@ -80,5 +83,6 @@ class Controller
 
     void InitController(const RobotState & robot_state_init);
     Eigen::VectorXd GetControlInput(const RobotState & robot_state, const int& selector);
+
 
 };
