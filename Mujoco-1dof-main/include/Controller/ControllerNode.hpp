@@ -32,7 +32,7 @@ private:
 
     ros::Subscriber object_name_msg_sub;
 
-    //For publish current joint statea
+    //For publish current joint state
     const std::string frame_id="world";
     std::vector<std::string> joint_names;
     ros::Publisher joint_state_msg_pub;

@@ -40,14 +40,13 @@ void ControllerNode::InitControllerNode(const mjModel* m, mjData* d)
         }
     }
     
-
     robot_state_init.theta = theta_init;
     robot_state_init.dtheta.setZero();
     robot_state_init.q = theta_init;
     robot_state_init.dq.setZero();
 
     //set desired value
-    robot_state.q_d.resize(nq); robot_state.q_d = theta_init;
+    robot_state.q_d.resize(nq); robot_state.q_d << 0, 0.5, 0, 0, 0, 0;
     robot_state.dq_d.resize(nv); robot_state.dq_d.setZero();
 
     controller.InitController(robot_state_init);
@@ -56,38 +55,23 @@ void ControllerNode::InitControllerNode(const mjModel* m, mjData* d)
 }
 
 void ControllerNode::UpdateRobotState(const mjModel* m, mjData* d, RobotState & robot_state)
-{   
+{
     robot_state.theta.resize(nq); 
     robot_state.dtheta.resize(nv);
     robot_state.q.resize(nq);
     robot_state.dq.resize(nv);
     robot_state.tau_J.resize(nv);
 
-    //Get Data from mujoco
-    if(is_rigid) // rigid
+    for(int i=0; i<nq; i++)
     {
-        for(int i=0; i<nq; i++)
-        {
-            robot_state.theta(i) = d->qpos[i]; //motor side angle
-            robot_state.dtheta(i)=d->qvel[i];
-            robot_state.q(i) = d->qpos[i];
-            robot_state.dq(i) = d->qvel[i];
-            robot_state.tau_J(i) = d->sensordata[3*i+2]; // from JTS
-        }
+        robot_state.theta(i) = d->qpos[2*i]; // motor side
+        robot_state.dtheta(i)= d->qvel[2*i];
+        robot_state.q(i)     = d->qpos[2*i] + d->qpos[2*i+1];
+        robot_state.dq(i)    = d->qvel[2*i];
+        robot_state.tau_J(i) = d->sensordata[3*i+2];
     }
-    else
-    {
-        for(int i=0; i<nq; i++)
-        {
-            robot_state.theta(i) = d->qpos[2*i]; //motor side angle
-            robot_state.dtheta(i)=d->qvel[2*i];
-            robot_state.q(i) = d->qpos[2*i] + d->qpos[2*i+1];
-            robot_state.dq(i) = d->qvel[2*i];
-            robot_state.tau_J(i) = d->sensordata[3*i+2]; // from JTS
-        }
-    }
-    
 }
+
 
 void ControllerNode::Control_Loop(const mjModel* m, mjData* d)
 {   
@@ -101,7 +85,6 @@ void ControllerNode::Control_Loop(const mjModel* m, mjData* d)
     //apply control input u
     for (int i=0; i<nv;i++)
     {
-        //d->ctrl[i] = u(i)-robot_state.tau_J(i)+fric(i);
         d->ctrl[i] = u(i);
     }
     

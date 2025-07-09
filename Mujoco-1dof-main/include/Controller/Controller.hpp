@@ -31,7 +31,7 @@ class Controller
     double step_time_=0.001; // 1000Hz defined in franka_panda__flexible.xml file.
 
     // for LuGre 
-    Eigen::VectorXd z;
+    Eigen::VectorXd z, z_prev;
     Eigen::VectorXd sig_0, sig_1, sig_2;
     Eigen::VectorXd Fc, Fs, vs;
     
@@ -41,12 +41,12 @@ class Controller
     Eigen::MatrixXd rotor_inertia_matrix_;
 
     //for observer
-    Eigen::VectorXd theta_n_km1;
-    Eigen::VectorXd dtheta_n_km1;
-    Eigen::VectorXd sigma_km1;
-    Eigen::VectorXd tau_f_km1;
-    Eigen::VectorXd tau_c_km1;
-    Eigen::VectorXd tau_j_km1;
+    Eigen::VectorXd theta_n_prev;
+    Eigen::VectorXd dtheta_n_prev;
+    Eigen::VectorXd sigma_prev;
+    Eigen::VectorXd tau_f_prev;
+    Eigen::VectorXd tau_c_prev;
+    Eigen::VectorXd tau_j_prev;
 
     Eigen::MatrixXd Gamma_, Gamma_p_;     
     Eigen::VectorXd K_lpf_;          
@@ -64,7 +64,7 @@ class Controller
 
     Eigen::VectorXd lugre_friction(const RobotState & robot_state);
 
-    Eigen::VectorXd friction_observer_PD(const RobotState & robot_state, Eigen::VectorXd control_motor_torque);
+    Eigen::VectorXd friction_observer_PD(const RobotState & robot_state);
 
     Eigen::VectorXd PD_controller(const RobotState & robot_state);
 
@@ -82,7 +82,6 @@ class Controller
     Controller(const pinocchio::Model & pinocchio_model);
 
     void InitController(const RobotState & robot_state_init);
-    Eigen::VectorXd GetControlInput(const RobotState & robot_state, const int& selector);
-
+    Eigen::VectorXd GetControlInput(const RobotState & robot_state, const int& selectors);
 
 };
