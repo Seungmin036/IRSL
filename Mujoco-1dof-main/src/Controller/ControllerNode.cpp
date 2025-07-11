@@ -46,7 +46,7 @@ void ControllerNode::InitControllerNode(const mjModel* m, mjData* d)
     robot_state_init.dq.setZero();
 
     //set desired value
-    robot_state.q_d.resize(nq); robot_state.q_d << 0, 0.5, 0, 0, 0, 0;
+    robot_state.q_d.resize(nq); robot_state.q_d << 0,0,0,0,0,0,0;
     robot_state.dq_d.resize(nv); robot_state.dq_d.setZero();
 
     controller.InitController(robot_state_init);

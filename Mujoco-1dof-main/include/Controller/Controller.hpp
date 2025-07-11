@@ -45,7 +45,7 @@ class Controller
     Eigen::VectorXd dtheta_n_prev;
     Eigen::VectorXd sigma_prev;
     Eigen::VectorXd tau_f_prev;
-    Eigen::VectorXd tau_c_prev;
+    Eigen::VectorXd u_prev;
     Eigen::VectorXd tau_j_prev;
 
     Eigen::MatrixXd Gamma_, Gamma_p_;     
@@ -64,7 +64,7 @@ class Controller
 
     Eigen::VectorXd lugre_friction(const RobotState & robot_state);
 
-    Eigen::VectorXd friction_observer_PD(const RobotState & robot_state);
+    Eigen::VectorXd friction_observer_PD(const RobotState & robot_state, VectorXd Control_input);
 
     Eigen::VectorXd PD_controller(const RobotState & robot_state);
 
