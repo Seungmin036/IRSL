@@ -64,7 +64,7 @@ class Controller
 
     Eigen::VectorXd lugre_friction(const RobotState & robot_state);
 
-    Eigen::VectorXd friction_observer_PD(const RobotState & robot_state, VectorXd Control_input);
+    Eigen::VectorXd friction_observer_PD(const RobotState & robot_state, VectorXd& Control_input);
 
     Eigen::VectorXd PD_controller(const RobotState & robot_state);
 
