@@ -49,8 +49,8 @@ class Controller
     Eigen::VectorXd tau_j_prev;
 
     Eigen::MatrixXd Gamma_, Gamma_p_;     
-    Eigen::VectorXd K_lpf_;          
-
+    Eigen::VectorXd K_lpf_;
+    Eigen::MatrixXd L, Lp;  
 
     //for RNEA 
     Dynamics::articulated_system robot;
@@ -65,6 +65,8 @@ class Controller
     Eigen::VectorXd lugre_friction(const RobotState & robot_state);
 
     Eigen::VectorXd friction_observer_PD(const RobotState & robot_state, VectorXd& Control_input);
+    
+    Eigen::VectorXd friction_observer_L1_PD(const RobotState & robot_state, VectorXd& Control_input);
 
     Eigen::VectorXd PD_controller(const RobotState & robot_state);
 
