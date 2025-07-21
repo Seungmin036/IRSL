@@ -41,8 +41,8 @@ class Controller
     Eigen::MatrixXd rotor_inertia_matrix_;
 
     //for observer
-    Eigen::VectorXd theta_n_prev;
-    Eigen::VectorXd dtheta_n_prev;
+    Eigen::VectorXd theta_n;
+    Eigen::VectorXd dtheta_n;
     Eigen::VectorXd sigma_prev;
     Eigen::VectorXd tau_f_prev;
     Eigen::VectorXd u_prev;
@@ -70,7 +70,7 @@ class Controller
 
     Eigen::VectorXd PD_controller_AS_GC(const RobotState & robot_state);
 
-    // Eigen::VectorXd PD_controller_AS_GC_task_space(const RobotState & robot_state);
+    Eigen::VectorXd PD_controller_AS_GC_task_space(const RobotState & robot_state);
 
     // Eigen::MatrixXd Null_space_projection(const RobotState & robot_state);
 
