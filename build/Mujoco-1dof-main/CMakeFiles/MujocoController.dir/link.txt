@@ -1,0 +1,2 @@
+/usr/bin/ar qc /home/irsl/catkin_ws/devel/lib/libMujocoController.a  CMakeFiles/MujocoController.dir/src/Controller/ControllerNode.cpp.o CMakeFiles/MujocoController.dir/src/Controller/Controller.cpp.o CMakeFiles/MujocoController.dir/src/Dynamics/Dynamics.cpp.o
+/usr/bin/ranlib /home/irsl/catkin_ws/devel/lib/libMujocoController.a

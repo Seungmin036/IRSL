@@ -1,0 +1,2 @@
+Mujoco-1dof-main
+-DCATKIN_DEVEL_PREFIX=/home/irsl/catkin_ws/devel -DCMAKE_INSTALL_PREFIX=/home/irsl/catkin_ws/install -G Unix Makefiles

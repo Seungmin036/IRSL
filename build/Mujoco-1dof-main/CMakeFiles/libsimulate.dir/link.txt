@@ -1,0 +1,2 @@
+/usr/bin/ar qc /home/irsl/catkin_ws/devel/lib/liblibsimulate.a  CMakeFiles/libsimulate.dir/include/mujoco-2.3.1/simulate/simulate.cc.o CMakeFiles/libsimulate.dir/include/mujoco-2.3.1/simulate/uitools.cc.o CMakeFiles/libsimulate.dir/include/mujoco-2.3.1/simulate/glfw_dispatch.cc.o
+/usr/bin/ranlib /home/irsl/catkin_ws/devel/lib/liblibsimulate.a

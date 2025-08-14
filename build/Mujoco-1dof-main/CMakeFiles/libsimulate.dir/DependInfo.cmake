@@ -1,0 +1,38 @@
+# The set of languages for which implicit dependencies are needed:
+set(CMAKE_DEPENDS_LANGUAGES
+  "CXX"
+  )
+# The set of files for implicit dependencies of each language:
+set(CMAKE_DEPENDS_CHECK_CXX
+  "/home/irsl/catkin_ws/src/Mujoco-1dof-main/include/mujoco-2.3.1/simulate/glfw_dispatch.cc" "/home/irsl/catkin_ws/build/Mujoco-1dof-main/CMakeFiles/libsimulate.dir/include/mujoco-2.3.1/simulate/glfw_dispatch.cc.o"
+  "/home/irsl/catkin_ws/src/Mujoco-1dof-main/include/mujoco-2.3.1/simulate/simulate.cc" "/home/irsl/catkin_ws/build/Mujoco-1dof-main/CMakeFiles/libsimulate.dir/include/mujoco-2.3.1/simulate/simulate.cc.o"
+  "/home/irsl/catkin_ws/src/Mujoco-1dof-main/include/mujoco-2.3.1/simulate/uitools.cc" "/home/irsl/catkin_ws/build/Mujoco-1dof-main/CMakeFiles/libsimulate.dir/include/mujoco-2.3.1/simulate/uitools.cc.o"
+  )
+set(CMAKE_CXX_COMPILER_ID "GNU")
+
+# Preprocessor definitions for this target.
+set(CMAKE_TARGET_DEFINITIONS_CXX
+  "ROSCONSOLE_BACKEND_LOG4CXX"
+  "ROS_BUILD_SHARED_LIBS=1"
+  "ROS_PACKAGE_NAME=\"mujoco_1dof\""
+  )
+
+# The include file search paths:
+set(CMAKE_CXX_TARGET_INCLUDE_PATH
+  "/opt/ros/noetic/include"
+  "/opt/ros/noetic/share/xmlrpcpp/cmake/../../../include/xmlrpcpp"
+  "/home/irsl/catkin_ws/src/Mujoco-1dof-main/include/mujoco-2.3.1/simulate"
+  "/home/irsl/catkin_ws/src/Mujoco-1dof-main/include/mujoco-2.3.1/include"
+  "/home/irsl/catkin_ws/src/Mujoco-1dof-main/include/mujoco-2.3.1/sample"
+  "/home/irsl/catkin_ws/src/Mujoco-1dof-main/include"
+  "/usr/include/eigen3"
+  "/home/irsl/catkin_ws/src/Mujoco-1dof-main/include/mujoco-2.3.1/include/mujoco"
+  )
+
+# Targets to which this target links.
+set(CMAKE_TARGET_LINKED_INFO_FILES
+  "/home/irsl/catkin_ws/build/Mujoco-1dof-main/CMakeFiles/lodepng.dir/DependInfo.cmake"
+  )
+
+# Fortran module output directory.
+set(CMAKE_Fortran_TARGET_MODULE_DIR "")

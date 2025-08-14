@@ -1,0 +1,2 @@
+/usr/bin/ar qc /home/irsl/catkin_ws/devel/lib/liblodepng.a  CMakeFiles/lodepng.dir/include/mujoco-2.3.1/simulate/lodepng.cpp.o
+/usr/bin/ranlib /home/irsl/catkin_ws/devel/lib/liblodepng.a
